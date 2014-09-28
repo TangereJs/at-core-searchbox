@@ -1,0 +1,85 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../core-icons/core-icons.html">
+<link rel="import" href="../core-icon/core-icon.html">
+<link rel="import" href="../speech-mic/speech-mic.html">
+
+<polymer-element name="at-core-searchbox" >
+
+  <template>
+    <style>
+      #searchBox {
+        background-color: white;
+        position: relative;
+        width: calc(100% - 4px);
+        height: 50px;
+        padding: 0 4px;
+        border: 1px solid rgba(0, 0, 0, 0.16);
+        margin:0 auto;
+        max-width:500px;
+      }
+      
+      #searchInput {
+        -webkit-align-self: stretch;
+        align-self: stretch;
+        margin: 0 1px;
+        border: 0;
+        font-size: 16px;
+      }
+      
+      #searchIcon {
+        padding-left: 4px;
+      }
+      
+    </style>
+    
+    
+	
+    <div id="searchBox" center horizontal layout>	
+      <core-icon id="searchIcon" icon="search"></core-icon>
+      <input id="searchInput" flex on-blur="{{termChange}}" on-keypress="{{keyPress}}" value="{{ _valueNew }}">
+      <speech-mic id="speech" on-speech-mic-result="{{speechResult}}" language="{{ language }}"></speech-mic>	  
+    </div>
+	
+
+  </template>
+
+  <script>
+
+    Polymer('at-core-searchbox', {
+
+      publish: {        
+        searchTerm: { value: '', reflect: true },    
+        language: { value: 'en-US', reflect: true},
+        _valueNew: ''	  
+      },
+      
+      keyPress: function(e) {
+        // enter was hit
+        if(e.keyCode == 13)  {this.termChange();}
+      },
+      
+      searchTermChanged: function() {
+        if(this._valueNew != this.searchTerm)  this._valueNew = this.searchTerm;
+      },
+      
+      termChange: function() {
+        this.searchTerm = this._valueNew;
+      },
+      
+      speechResult: function(e) {
+        
+        // update input field with speech value
+        this._valueNew = e.detail.transcript;
+        
+        // when detection isFinal then report new term
+        if(e.detail.isFinal) { this.termChange(); } 
+      },
+      
+      ready: function() {
+      }
+
+    });
+
+  </script>
+
+</polymer-element>
