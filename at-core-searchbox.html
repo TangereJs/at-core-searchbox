@@ -1,11 +1,10 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../core-icons/core-icons.html">
 <link rel="import" href="../core-icon/core-icon.html">
-<link rel="import" href="../speech-mic/speech-mic.html">
+<link rel="import" href="../at-core-mic/at-core-mic.html">
+<link rel="import" href="../at-core-theme/at-core-theme.html">
 
-<polymer-element name="at-core-searchbox" >
-
-  <template>
+<dom-module id="at-core-searchbox">
     <style>
       #searchBox {
         background-color: white;
@@ -29,57 +28,56 @@
       }
       
     </style>
-    
-    
-    <form action="#" method="get" onsubmit="event.preventDefault()">
-      <div id="searchBox" center horizontal layout>
-        <core-icon id="searchIcon" icon="search"></core-icon>
-        <input id="searchInput" flex on-blur="{{termChange}}" on-keypress="{{keyPress}}" value="{{ _valueNew }}" type="search" placeholder="{{ placeholder }}">
-        <speech-mic id="speech" on-speech-mic-result="{{speechResult}}" language="{{ language }}"></speech-mic>
-      </div>
-      </form>
-
-</template>
-
+    <template>
+        <at-core-theme></at-core-theme>
+        <form action="#" method="get" onsubmit="event.preventDefault()">
+            <div id="searchBox" center horizontal layout>
+                <core-icon id="searchIcon" icon="search"></core-icon>
+                <input id="searchInput" flex on-blur="termChange" on-keypress="keyPress" value="{{searchTerm}}" type="search" placeholder="{{placeholder}}" />
+                <at-core-mic id="speech" language="{{language}}"></at-core-mic>
+            </div>
+        </form>
+    </template>
+</dom-module>
   <script>
 
-    Polymer('at-core-searchbox', {
-
-      publish: {        
-        searchTerm: { value: '', reflect: true },
-        placeholder: { value: '', reflect: true },
-        language: { value: 'en-US', reflect: true},
-        _valueNew: ''	  
-      },
+    Polymer({
+        is: 'at-core-searchbox',
+        properties: {        
+            searchTerm: { 
+                type: String, 
+                value: '', 
+                reflect: true,
+                notify: true
+            },
+            placeholder: { 
+                type: String, 
+                value: '',
+                reflect: true 
+            },
+            language: { 
+                type: String, 
+                value: 'en-US', 
+                reflect: true
+            }
+        },
       
       keyPress: function(e) {
         // enter was hit
         if(e.keyCode == 13)  {this.termChange();}
       },
       
-      searchTermChanged: function() {
-        if(this._valueNew != this.searchTerm)  this._valueNew = this.searchTerm;
-      },
-      
       termChange: function () {
         this.$.searchInput.blur();
-        this.searchTerm = this._valueNew;
-      },
-      
-      speechResult: function(e) {
-        
-        // update input field with speech value
-        this._valueNew = e.detail.transcript;
-        
-        // when detection isFinal then report new term
-        if(e.detail.isFinal) { this.termChange(); } 
+        this.searchTerm = this.$.searchInput.value;
       },
       
       ready: function() {
+          this.addEventListener('at-core-mic-result', function(e) {
+                this.searchTerm = e.detail.transcript;
+            });
       }
 
     });
 
   </script>
-
-</polymer-element>

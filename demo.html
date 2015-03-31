@@ -4,41 +4,11 @@
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
   <title>at-core-searchbox Demo</title>
 
-  <script src="../platform/platform.js"></script>
-  <link rel="import" href="at-core-searchbox.html">
+  <script src="../webcomponentsjs/webcomponents.js"></script>
+  <link rel="import" href="my-element.html">
 
 </head>
-<body unresolved>
-  
-  <polymer-element name="my-element">
-
-  <template>
-    <style>    
-      #design_host {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        box-sizing: border-box;
-      }
-    </style>
-    
-    <at-core-searchbox searchTerm="{{searchTerm}}"></at-core-searchbox>
-    
-    <p>Search Term: {{searchTerm}}</p>
-  </template>
-
-  <script>
-
-    Polymer({
-      searchTerm: 'Polymer'
-      
-    });
-
-  </script>
-
-</polymer-element>
-  
+<body>
   <my-element></my-element>
-  
 </body>
 </html>
