@@ -1,28 +1,27 @@
-<script src="../webcomponentsjs/webcomponents.js"></script>
 <link rel="import" href="at-core-searchbox.html">
 <dom-module id="my-element">
-<style>    
-      #design_host {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        box-sizing: border-box;
-      }
-    </style>
+  <style>
+    #design_host {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      box-sizing: border-box;
+    }
+  </style>
   <template>
     <at-core-searchbox search-term="{{searchTerm}}"></at-core-searchbox>
-    <p>Search Term: <span>{{searchTerm}}</span></p>
+    <p>Search Term: <span>{{searchTerm}}</span>
+    </p>
   </template>
 </dom-module>
-  <script>
-    Polymer({
-        is:'my-element',
-        properties: {
-            searchTerm: {
-                type: String,
-                value: 'Polymer'
-            }
-        }
-    });
-
-  </script>
+<script>
+  Polymer({
+    is: 'my-element',
+    properties: {
+      searchTerm: {
+        type: String,
+        value: 'Polymer'
+      }
+    }
+  });
+</script>
