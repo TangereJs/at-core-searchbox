@@ -44,14 +44,9 @@
     is: 'at-core-searchbox',
     _scopeCssViaAttr: true,
     properties: {
-      searchTermValue: {
-        type: String,
-        value: ''
-      },
       searchTerm: {
         type: String,
-        value: '',
-        reflect: true,
+        value: '',       
         notify: true
       },
       placeholder: {
@@ -66,6 +61,9 @@
       }
     },
 
+    /* internal, temporary value, required to show results from at-core-mic before they are final */
+    _searchTermValue: "",
+
     observers: [
             'searchTermChanged(searchTerm)'
         ],
@@ -78,20 +76,19 @@
     },
 
     searchTermChanged: function () {
-      if (this.searchTermValue != this.searchTerm) this.searchTermValue = this.searchTerm;
+      if (this._searchTermValue != this.searchTerm) this._searchTermValue = this.searchTerm;
     },
 
     termChange: function () {
       this.$.searchInput.blur();
-      this.searchTermValue = this.$.searchInput.value;
+      this._searchTermValue = this.$.searchInput.value;
 
-
-      this.searchTerm = this.searchTermValue;
+      this.searchTerm = this._searchTermValue;
     },
 
     ready: function () {
       this.addEventListener('at-core-mic-result', function (e) {
-        this.searchTermValue = e.detail.transcript;
+        this._searchTermValue = e.detail.transcript;
         if (e.detail.isFinal) {
           this.termChange();
         }
