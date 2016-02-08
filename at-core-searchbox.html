@@ -81,7 +81,10 @@
     },
 
     searchTermChanged: function () {
-      if (this._searchTermValue != this.searchTerm) this._searchTermValue = this.searchTerm;
+      if (this._searchTermValue != this.searchTerm) {
+        this._searchTermValue = this.searchTerm;
+        this.$.searchInput.value = this.searchTerm;
+      }
     },
 
     termChange: function () {
