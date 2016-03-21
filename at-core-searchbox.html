@@ -80,8 +80,13 @@
       }
     },
 
-    searchTermChanged: function () {
-      if (this._searchTermValue != this.searchTerm) { this._searchTermValue = this.searchTerm; }
+    searchTermChanged: function () {    
+      if (this._searchTermValue != this.searchTerm) {
+        this._searchTermValue = this.searchTerm;
+        if (this.$.searchInput.value != this._searchTermValue) {
+          this.$.searchInput.value = this._searchTermValue;
+        }
+      }
     },
 
     termChange: function () {
