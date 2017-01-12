@@ -1,8 +1,8 @@
-<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../tangere/tangere.html">
 <link rel="import" href="../layout/layout.html">
 <link rel="import" href="../at-carbon-icon/at-carbon-icon.html">
 <link rel="import" href="../at-core-mic/at-core-mic.html">
-<link rel="import" href="../at-core-theme/at-core-theme.html">
+<link rel="import" href="../at-theme/at-theme.html">
 
 <dom-module id="at-core-searchbox">
   <style>
@@ -29,7 +29,6 @@
     }
   </style>
   <template>
-    <at-core-theme></at-core-theme>
     <form action="#" method="get" onsubmit="event.preventDefault()">
       <div id="searchBox" class="layout center horizontal">
         <at-carbon-icon id="searchIcon" icon="{{icon}}"></at-carbon-icon>
@@ -42,7 +41,6 @@
 <script>
   Polymer({
     is: 'at-core-searchbox',
-    _scopeCssViaAttr: true,
     properties: {
       searchTerm: {
         type: String,
@@ -80,7 +78,7 @@
       }
     },
 
-    searchTermChanged: function () {    
+    searchTermChanged: function () {
       if (this._searchTermValue != this.searchTerm) {
         this._searchTermValue = this.searchTerm;
         if (this.$.searchInput.value != this._searchTermValue) {
