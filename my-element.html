@@ -11,7 +11,7 @@
     }
   </style>
   <template>
-    <at-core-searchbox search-term="{{searchTerm}}"></at-core-searchbox>
+    <at-core-searchbox search-term="{{searchTerm}}" type-write="{{typeWrite}}"></at-core-searchbox>
     <p>Search Term: <span>{{searchTerm}}</span>
     </p>
   </template>
@@ -22,7 +22,11 @@
     properties: {
       searchTerm: {
         type: String,
-        value: 'Polymer'
+        value: ''
+      },
+      typeWrite: {
+        type: String,
+        value: ''
       }
     }
   });

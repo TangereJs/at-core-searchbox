@@ -9,6 +9,7 @@
     :host {
       display: block;
     }
+    
     #searchBox {
       background-color: white;
       position: relative;
@@ -18,12 +19,14 @@
       margin: 0 auto;
       max-width: 500px;
     }
+    
     #searchInput {
       margin: 0 1px;
       border: 0;
       font-size: 16px;
       outline: none;
     }
+    
     #searchIcon {
       padding-left: 4px;
     }
@@ -61,6 +64,10 @@
         type: String,
         value: 'search',
         reflect: true
+      },
+      typeWrite: {
+        type: String,
+        value: ''
       }
     },
 
@@ -68,7 +75,8 @@
     _searchTermValue: "",
 
     observers: [
-            'searchTermChanged(searchTerm)'
+            'searchTermChanged(searchTerm)',
+            'typeWriteChanged(typeWrite)'
         ],
 
     keyPress: function (e) {
@@ -76,6 +84,30 @@
       if (e.keyCode == 13) {
         this.termChange();
       }
+    },
+
+
+    typeWriteChanged: function () {
+      var element = this.$.searchInput;
+      var text = this.typeWrite;      
+      var that = this;
+      
+      (function writer(i, that) {
+    
+        if (text.length <= i++) {         
+          element.value = text;
+          that.termChange();
+          return;
+        }
+        element.value = text.substring(0, i);
+        if (element.value[element.value.length - 1] != " ") element.focus();
+        var rand = Math.floor(Math.random() * (60)) + 20;
+        
+        setTimeout(function () {
+          writer(i, that);
+        }.bind(this), rand);
+        
+      }.bind(this))(0, that)
     },
 
     searchTermChanged: function () {
