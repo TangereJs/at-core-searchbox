@@ -76,7 +76,7 @@
 
     observers: [
             'searchTermChanged(searchTerm)',
-            'typeWriteChanged(typeWrite)'
+            'typeWriteChanged(typeWrite,searchTerm)'
         ],
 
     keyPress: function (e) {
@@ -88,6 +88,13 @@
 
 
     typeWriteChanged: function () {
+
+      // ignore typeWrite when value already matches 
+      if (this.searchTerm == this.typeWrite || !this.typeWrite) return;
+
+      // use effect only once
+      if (this._typeWrite && this._typeWrite == this.typeWrite) return;
+
       var element = this.$.searchInput;
       var text = this.typeWrite;      
       var that = this;
@@ -96,13 +103,15 @@
     
         if (text.length <= i++) {         
           element.value = text;
+          that._typeWrite = text;
           that.termChange();
           return;
         }
         element.value = text.substring(0, i);
         if (element.value[element.value.length - 1] != " ") element.focus();
-        var rand = Math.floor(Math.random() * (60)) + 20;
-        
+        var rand = Math.floor(Math.random() * (100)) + 50;
+        if (i == 1) rand = 350;
+
         setTimeout(function () {
           writer(i, that);
         }.bind(this), rand);
@@ -111,6 +120,8 @@
     },
 
     searchTermChanged: function () {
+      this.typeWrite = "";
+      this._typeWrite = "";
       if (this._searchTermValue != this.searchTerm) {
         this._searchTermValue = this.searchTerm;
         if (this.$.searchInput.value != this._searchTermValue) {
