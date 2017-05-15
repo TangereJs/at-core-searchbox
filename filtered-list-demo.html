@@ -251,15 +251,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           var lastName = item.last;
           var name = item.name;
 
-          // filter the items by firstName, lastName and name
-          // firstName is first name
-          // lastName is last name
-          // name is display name; name is included because its wierd for user to see foo as display name and when types foo as search term not to get it in results
-          if (
-            firstName.indexOf(searchTerm) > -1 || 
-            lastName.indexOf(searchTerm) > -1 ||
-            name.indexOf(searchTerm) > -1
-          ) {
+          if (name.indexOf(searchTerm) > -1) {
             filteredItems.push(item);
           }
         });
