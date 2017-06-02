@@ -1,16 +1,17 @@
 <link rel="import" href="../tangere/tangere.html">
-<link rel="import" href="../layout/layout.html">
 <link rel="import" href="../at-carbon-icon/at-carbon-icon.html">
 <link rel="import" href="../at-core-mic/at-core-mic.html">
 <link rel="import" href="../at-theme/at-theme.html">
 
 <dom-module id="at-core-searchbox">
   <style>
-    :host {
+     :host {
       display: block;
     }
-    
-    #searchBox {
+
+    .search-box {
+      @apply(--layout-horizontal);
+      @apply(--layout-center);
       background-color: white;
       position: relative;
       height: 44px;
@@ -19,23 +20,24 @@
       margin: 0 auto;
       max-width: 500px;
     }
-    
-    #searchInput {
+
+    .search-input {
+      @apply(--layout-flex);
       margin: 0 1px;
       border: 0;
       font-size: 16px;
       outline: none;
     }
-    
-    #searchIcon {
+
+    .search-icon {
       padding-left: 4px;
     }
   </style>
   <template>
     <form action="#" method="get" onsubmit="event.preventDefault()">
-      <div id="searchBox" class="layout center horizontal">
-        <at-carbon-icon id="searchIcon" icon="{{icon}}"></at-carbon-icon>
-        <input id="searchInput" class="flex" autocomplete="off" on-blur="termChange" on-keypress="keyPress" value$="{{_searchTermValue}}" type="search" placeholder$="{{placeholder}}" />
+      <div id="searchBox" class="search-box">
+        <at-carbon-icon id="searchIcon" class="search-icon" icon="{{icon}}"></at-carbon-icon>
+        <input id="searchInput" class="search-input" autocomplete="off" on-blur="termChange" on-keypress="keyPress" on-input="_handleOnInput" value$="{{_searchTermValue}}" type="search" placeholder$="{{placeholder}}" />
         <at-core-mic id="speech" language="{{language}}"></at-core-mic>
       </div>
     </form>
@@ -68,6 +70,18 @@
       typeWrite: {
         type: String,
         value: ''
+      },
+
+      /**
+       * when true search-term-changed will be fired each time user input changes
+       * 
+       * @property changeOnKeypress
+       * @type Boolean
+       * @default false
+       */
+      changeOnKeypress: {
+        type: Boolean,
+        value: false
       }
     },
 
@@ -75,17 +89,23 @@
     _searchTermValue: "",
 
     observers: [
-            'searchTermChanged(searchTerm)',
-            'typeWriteChanged(typeWrite,searchTerm)'
-        ],
+      'searchTermChanged(searchTerm)',
+      'typeWriteChanged(typeWrite,searchTerm)'
+    ],
 
     keyPress: function (e) {
       // enter was hit
       if (e.keyCode == 13) {
+        this.$.searchInput.blur();
         this.termChange();
       }
     },
 
+    _handleOnInput: function (event) {
+      if (this.changeOnKeypress) {
+        this.termChange();
+      }
+    },
 
     typeWriteChanged: function () {
 
@@ -131,7 +151,6 @@
     },
 
     termChange: function () {
-      this.$.searchInput.blur();
       this._searchTermValue = this.$.searchInput.value;
 
       this.searchTerm = this._searchTermValue;
