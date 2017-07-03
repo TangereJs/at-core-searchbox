@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "tangere": "TangereJs/tangere#master",
-    "layout": "polymer/layout#master",
+    "layout": "TangereJs/layout#master",
     "at-carbon-icon": "TangereJs/at-carbon-icon#master",
     "at-core-mic": "TangereJs/at-core-mic#master",
     "at-doc-viewer": "TangereJs/at-doc-viewer#master",
