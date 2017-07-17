@@ -19,14 +19,16 @@
       border: 1px solid rgba(0, 0, 0, 0.16);
       margin: 0 auto;
       max-width: 500px;
+      border-radius: 50px;
     }
 
     .search-input {
       @apply(--layout-flex);
-      margin: 0 1px;
+      margin: 0 1px 0 10px;
       border: 0;
       font-size: 16px;
       outline: none;
+     
     }
 
     .search-icon {
@@ -36,9 +38,9 @@
   <template>
     <form action="#" method="get" onsubmit="event.preventDefault()">
       <div id="searchBox" class="search-box">
-        <at-carbon-icon id="searchIcon" class="search-icon" icon="{{icon}}"></at-carbon-icon>
+        <!--<at-carbon-icon id="searchIcon" class="search-icon" icon="{{icon}}"></at-carbon-icon>-->
         <input id="searchInput" class="search-input" autocomplete="off" on-blur="termChange" on-keypress="keyPress" on-input="_handleOnInput" value$="{{_searchTermValue}}" type="search" placeholder$="{{placeholder}}" />
-        <at-core-mic id="speech" language="{{language}}"></at-core-mic>
+        <at-core-mic id="speech" language="{{language}}" alternate-icon="{{icon}}"></at-core-mic>
       </div>
     </form>
   </template>
