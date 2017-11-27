@@ -133,6 +133,8 @@
         if (element.value[element.value.length - 1] != " ") element.focus();
         var rand = Math.floor(Math.random() * (100)) + 50;
         if (i == 1) rand = 350;
+        
+        rand=1; // temporarily disable typeWrite effect until suggest search supports it as well
 
         setTimeout(function () {
           writer(i, that);
