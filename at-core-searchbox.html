@@ -20,7 +20,6 @@
         border: 1px solid rgba(0, 0, 0, 0.16);
         margin: 0 auto;
         max-width: 500px;
-        border-radius: 50px;
       }
 
       .search-input {
@@ -38,9 +37,8 @@
     </style>
     <form action="#" method="get" onsubmit="event.preventDefault()">
       <div id="searchBox" class="search-box">
-        <!--<at-carbon-icon id="searchIcon" class="search-icon" icon="{{icon}}"></at-carbon-icon>-->
-        <input id="searchInput" class="search-input" autocomplete="off" on-blur="termChange" on-keypress="keyPress" on-input="_handleOnInput"
-          value$="{{_searchTermValue}}" type="search" placeholder$="{{placeholder}}" />
+        <at-carbon-icon id="searchIcon" class="search-icon" icon="{{icon}}"></at-carbon-icon>
+        <input id="searchInput" class="search-input" autocomplete="off" on-blur="termChange" on-keypress="keyPress" on-input="_handleOnInput" value$="{{_searchTermValue}}" type="search" placeholder$="{{placeholder}}" />
         <at-core-mic id="speech" language="{{language}}" alternate-icon="{{icon}}"></at-core-mic>
       </div>
     </form>
@@ -93,7 +91,8 @@
 
     observers: [
       'searchTermChanged(searchTerm)',
-      'typeWriteChanged(typeWrite,searchTerm)'
+      'typeWriteChanged(typeWrite,searchTerm)',
+      '_iconChanged(icon)'
     ],
 
     keyPress: function(e) {
@@ -107,6 +106,14 @@
     _handleOnInput: function(event) {
       if (this.changeOnKeypress) {
         this.termChange();
+      }
+    },
+
+    _iconChanged: function (newValue, oldValue) {
+      if (newValue == '' || newValue == null) {
+        this.$.searchIcon.setAttribute('hidden', true);
+      } else {
+        this.$.searchIcon.removeAttribute('hidden');
       }
     },
 
